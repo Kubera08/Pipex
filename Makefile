@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+         #
+#    By: abeaudui <abeaudui@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/21 13:06:31 by arnaud            #+#    #+#              #
-#    Updated: 2023/02/21 13:09:13 by arnaud           ###   ########.fr        #
+#    Updated: 2023/02/22 12:20:56 by abeaudui         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 
 FLAGS = -Wall -Wextra -Werror
 
-SRC = main.c 
+SRC = pipex.c utils.c check.c 
 
 OBJS = $(SRC:.c=.o)
 
@@ -34,12 +34,12 @@ $(NAME):	$(OBJS)
 	$(CC) $(FLAGS) -I$(INC) -o $(NAME) $(OBJS) 
 
 clean:
-	make clean -C libft
+
 	$(RM) $(OBJS) $(NAME) 
 
 
 fclean: clean
-	$(RM) $(LIBFT)
+	$(RM) 
 	$(RM) $(NAME)
 
 re: fclean all
