@@ -6,13 +6,13 @@
 /*   By: abeaudui <abeaudui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:46:48 by arnaud            #+#    #+#             */
-/*   Updated: 2023/02/22 14:45:03 by abeaudui         ###   ########.fr       */
+/*   Updated: 2023/02/23 13:32:57 by abeaudui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(char *s1, char *s2, size_t n)
 {
 	while ((*s1 || *s2) && (n > 0))
 	{
@@ -25,7 +25,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*ft_strjoin(char  *s1, char  *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*j_str;
 	size_t	i;
@@ -51,7 +51,7 @@ char	*ft_strjoin(char  *s1, char  *s2)
 	return (j_str);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src)
 {
 	char	*cp;
 	size_t	i;
@@ -69,7 +69,7 @@ char	*ft_strdup(const char *src)
 	return (cp);
 }
 
-int	ft_strlen(const char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 

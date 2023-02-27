@@ -6,7 +6,7 @@
 /*   By: abeaudui <abeaudui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:16:38 by abeaudui          #+#    #+#             */
-/*   Updated: 2023/02/22 12:17:26 by abeaudui         ###   ########.fr       */
+/*   Updated: 2023/02/23 13:32:52 by abeaudui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_countword(char *s, char c)
 	return (word);
 }
 
-static char	*tab_filler(char const *s, char c)
+char	*tab_filler(char *s, char c)
 {	
 	char	*str;
 	int		i;
@@ -59,7 +59,7 @@ static char	*tab_filler(char const *s, char c)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**str;
 	int		i;

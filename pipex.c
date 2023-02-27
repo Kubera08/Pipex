@@ -6,7 +6,7 @@
 /*   By: abeaudui <abeaudui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:56:33 by abeaudui          #+#    #+#             */
-/*   Updated: 2023/02/22 15:01:25 by abeaudui         ###   ########.fr       */
+/*   Updated: 2023/02/26 13:59:16 by abeaudui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,61 +43,38 @@
 int main(int ac, char **av, char **env)
 {
 	t_pipex pipex;
-
-	int fd[2];
 	
-	pipex.path_pos = path_pos(env);
-	pipex.envVec = ft_split(pipex.path_pos, ':');
-
-
 	pipex.cmd1 = av[2];
 	pipex.cmd2 = av[3];
-	
+	pipex.path_pos = path_pos(env);
+	pipex.envVec = ft_split(pipex.path_pos, ':');
 	pipex.argOptions1 = ft_split(pipex.cmd1, ' ');
 	pipex.argOptions2 = ft_split(pipex.cmd2, ' ');
-
-
-	if(check_all(ac, av[1], av[4]) == 0)
-	{
-		
-		if(pipe(fd) == -1) // création pipe
-		{
-			printf("Erreur lors de la création du pipe");
+	pipex.infile = open(av[1], O_RDONLY);
+	pipex.outfile = open(av[ac -1], O_RDWR, O_CREAT);
+	if (pipex.infile != -1 && pipex.outfile != -1 && ac != 5)
+		return(3);
+	if (pipe(pipex.fd) == -1) // création pipe
 			return(1);
-		}
-		pipex.pid1 = fork();  // création du fork après la pipe comme ca les FD sont également assignés aux nouveaux process mais restent indépendant
-     	// si on ferme un FD dans un process, celui qui à été dupliqué ne se ferme pas
-		if (pipex.pid1 < 0)
-		{
-			printf("Erreur lors du fork");
-			return(2);
-		}
-		
-		if (pipex.pid1 == 0) // enfant 1 -> process pour notre première commande 
-		{
-			first_child(pipex);
-		
-		}
-		
-		pipex.pid2 = fork();
-		
-		if(pipex.pid2 < 0)
-		{
-			
-		}
-		if (pipex.pid2 == 0) // enfant 2 -> process de notre deuxieme commande
-		{
-			second_child(pipex);
-		}
-
-		else // père
-		{
-			close(fd[0]);
-			close(fd[1]);
-			waitpid(pipex.pid1, NULL, 0);
-			waitpid(pipex.pid2, NULL, 0);
-		}
-	}
+	pipex.pid1 = fork();
+	if (pipex.pid1 < 0)
+		return(2);
+	if (pipex.pid1 == 0) // enfant 1 -> process pour notre première commande 
+		second_child(pipex);
+	pipex.pid2 = fork();
+	if (pipex.pid2 == 0) // enfant 2 -> process de notre deuxieme commande
+		first_child(pipex);
+	else // père
+			daddy(pipex);
+	ft_free(pipex);
 	return(0);
-	
+}
+
+void daddy(t_pipex pipex)
+{
+			close(pipex.fd[0]);
+			close(pipex.fd[1]);
+			waitpid(pipex.pid1, NULL, 0);
+			waitpid(
+				pipex.pid2, NULL, 0);
 }
